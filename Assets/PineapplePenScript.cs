@@ -46,6 +46,11 @@ public class PineapplePenScript : MonoBehaviour {
             buttons[i].OnInteract +=  PressButton(i); 
             buttons[i].OnHighlight +=  HighlightButton(i); 
         }
+        Generate();
+    }
+
+    private void Generate()
+    {
         _penPickedUp = false;
         regen:
         int appleCt = UnityEngine.Random.Range(13, 17);
@@ -164,7 +169,7 @@ public class PineapplePenScript : MonoBehaviour {
                     {
                         Debug.LogFormat("[Pineapple Pen #{0}] You touched an apple, strike! Resetting...", _moduleId);
                         Module.HandleStrike();
-                        Start();
+                        Generate();
                         return false;
                     }
                     else if (_grid[getDir[0]][getDir[1]] == 2 && !_penPickedUp)
