@@ -123,10 +123,10 @@ public class ApplePenScript : MonoBehaviour
     {
         return delegate ()
         {
-            DisplaySels[btn].AddInteractionPunch(0.5f);
-            Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, DisplaySels[btn].transform);
             if (_moduleSolved)
                 return false;
+            DisplaySels[btn].AddInteractionPunch(0.5f);
+            Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, DisplaySels[btn].transform);
             if (btn == 0)
                 _currentInput[0] = ((_currentInput[0] + 5) % 5) + 1;
             if (btn == 1)
@@ -145,6 +145,8 @@ public class ApplePenScript : MonoBehaviour
     {
         return delegate ()
         {
+            if (_moduleSolved)
+                return false;
             SubmitMethod();
             return false;
         };
@@ -173,11 +175,13 @@ public class ApplePenScript : MonoBehaviour
         if (!list[0].Equals(_base) && !list[1].Equals(_base) && !list[2].Equals(_base) && list[3].Equals(_base))
         {
             _moduleSolved = true;
+            Debug.LogFormat("[Apple Pen #{0}] Correctly submitted {1} {2}. Module solved.", _moduleId, _currentInput[0], _currentInput[1]);
             Module.HandlePass();
             StartCoroutine(CheckIfBothSolved());
         }
         else
         {
+            Debug.LogFormat("[Apple Pen #{0}] Incorrectly submitted {1} {2}. Strike.", _moduleId, _currentInput[0], _currentInput[1]);
             Module.HandleStrike();
         }
     }
