@@ -133,7 +133,12 @@ public class PineapplePenScript : MonoBehaviour {
         for (int i = 0; i < 6; i++)
             Debug.LogFormat("[Pineapple Pen #{0}] {1}{2}{3}{4}{5}{6}", _moduleId, _grid[i][0], _grid[i][1], _grid[i][2], _grid[i][3], _grid[i][4], _grid[i][5]);
         Debug.LogFormat("[Pineapple Pen #{0}] Key: 0 = Nothing | 1 = Apple | 2 = Pen | 3 = Pineapple", _moduleId);
-        Debug.LogFormat("[Pineapple Pen #{0}] Starting Position: {1}, {2} (row then column, 0-indexed from top left)", _moduleId, _xPos, _yPos);
+        Debug.LogFormat("[Pineapple Pen #{0}] Starting Position: {1}", _moduleId, GetCoord(_xPos, _yPos));
+    }
+
+    private string GetCoord(int x, int y)
+    {
+        return "ABCDEF"[y].ToString() + (x + 1).ToString();
     }
 
     private IEnumerator Init()
@@ -157,14 +162,14 @@ public class PineapplePenScript : MonoBehaviour {
             {
                 if (index == 4)
                 {
-                    SubmitPress();
+                    SubmitMethod();
                 }
                 else if (!_readyToSolve)
                 {
                     buttons[index].AddInteractionPunch();
                     Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, buttons[index].transform);
                     int[] getDir = GetNewPosition(_xPos, _yPos, index);
-                    Debug.LogFormat("[Pineapple Pen #{0}] Moved to: {1}, {2}", _moduleId, getDir[0], getDir[1]);
+                    Debug.LogFormat("[Pineapple Pen #{0}] Moved to: {1}", _moduleId, GetCoord(getDir[0], getDir[1]));
                     if (_grid[getDir[0]][getDir[1]] == 1)
                     {
                         Debug.LogFormat("[Pineapple Pen #{0}] You touched an apple, strike! Resetting...", _moduleId);
@@ -416,7 +421,7 @@ public class PineapplePenScript : MonoBehaviour {
         public int direction;
     }
 
-    internal void SubmitPress(bool fromPartner = false)
+    internal void SubmitMethod(bool fromPartner = false)
     {
         buttons[4].AddInteractionPunch();
         Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, buttons[4].transform);
@@ -424,7 +429,7 @@ public class PineapplePenScript : MonoBehaviour {
         {
             Debug.LogFormat("[Pineapple Pen #{0}] You have not made a pineapple pen yet, strike! Resetting...", _moduleId);
             Module.HandleStrike();
-            Start();
+            Generate();
         }
         else
         {
@@ -434,7 +439,7 @@ public class PineapplePenScript : MonoBehaviour {
             StartCoroutine(CheckIfBothSolved());
         }
         if (_partner != null && !fromPartner)
-            _partner.SubmitPress(true);
+            _partner.SubmitMethod(true);
     }
 
     private IEnumerator CheckIfBothSolved()

@@ -11,10 +11,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615501dbe4f3fe94fbf4b564abb10237, type: 3}
   m_Name: ModConfig
   m_EditorClassIdentifier: 
-  id: Module
-  title: Module
-  author: Author
-  description: Module description
+  id: PenPineappleApplePen
+  title: Pen Pineapple Apple Pen
+  author: Quinn Wuest & eXish
+  description: "I have a pen, I have a apple, uhh... Apple pen!\nI have a pen, I have
+    pineapple, uhh... Pineapple pen!\nApple pen... Pineapple pen... uh...\nPen Pineapple
+    Apple Pen!\n\nApple Pen by Quinn Wuest\nPineapple Pen by eXish\n\nApple Pen [url=https://ktane.timwi.de/HTML/Apple%20Pen.html]Manual
+    HTML[/url]\r\nApple Pen [url=https://ktane.timwi.de/PDF/Apple%20Pen.pdf]Manual
+    PDF[/url]\r\nPineapple Pen [url=https://ktane.timwi.de/HTML/Pineapple%20Pen.html]Manual
+    HTML[/url]\r\nPineapple Pen [url=https://ktane.timwi.de/PDF/Pineapple%20Pen.pdf]Manual
+    PDF[/url]"
   version: 1.0
   outputFolder: build
   previewImage: {fileID: 2800000, guid: bd5c1f4881f57d54481b44e4c8a7779a, type: 3}

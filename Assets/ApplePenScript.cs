@@ -145,11 +145,16 @@ public class ApplePenScript : MonoBehaviour
     {
         return delegate ()
         {
-            CheckAnswer();
-            if (_partner != null && !fromPartner)
-                _partner.SubmitPress(true);
+            SubmitMethod();
             return false;
         };
+    }
+
+    internal void SubmitMethod(bool fromPartner = false)
+    {
+        CheckAnswer();
+        if (_partner != null && !fromPartner)
+            _partner.SubmitMethod(true);
     }
 
     private void CheckAnswer()
@@ -252,7 +257,8 @@ public class ApplePenScript : MonoBehaviour
         goto tryAgain;
         done:
         Debug.LogFormat("[Apple Pen #{0}] Grid:", _moduleId);
-        Debug.LogFormat("[Apple Pen #{0}] {1}", _moduleId, _grid.Select(i => i.ToString()).Select(j => j == "Pineapple" ? "." : j == "Apple" ? "A" : "P").Join(" "));
+        Debug.LogFormat("[Apple Pen #{0}] {1}", _moduleId, _grid.Select(i => i.ToString()).Select(j => j == "Pineapple" ? "N" : j == "Apple" ? "A" : "P").Join(" "));
+        Debug.LogFormat("[Apple Pen #{0}] Key: A = Apple | P = Pen | N = Pineapple", _moduleId);
         Debug.LogFormat("[Apple Pen #{0}] Starting position: {1}", _moduleId, "ABCDEF"[_startPos % 6].ToString() + ((_startPos / 6) + 1).ToString());
         Debug.LogFormat("[Apple Pen #{0}] Possible solution: {1} right, {2} down.", _moduleId, _solution[0], _solution[1]);
     }
