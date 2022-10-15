@@ -222,7 +222,7 @@ public class ApplePenScript : MonoBehaviour
     private IEnumerator FlashImage()
     {
         ScreenObj.SetActive(false);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         ScreenObj.GetComponent<MeshRenderer>().material = ShapeMats[(int)_grid[_currentPos]];
         ScreenObj.SetActive(true);
         if (_currentPos == _startPos)
@@ -291,7 +291,7 @@ public class ApplePenScript : MonoBehaviour
             if (list.Count == 0)
                 yield break;
             yield return null;
-            yield return ArrowSels;
+            yield return list;
             yield break;
         }
         var m = Regex.Match(command, @"^\s*submit\s+(\d)\s+(\d)\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
