@@ -317,22 +317,22 @@ public class PineapplePenScript : MonoBehaviour {
                     {
                         case "up":
                         case "u":
-                            buttons[0].OnHighlight();
+                            buttons[0].OnInteract();
                             break;
                         case "down":
                         case "d":
-                            buttons[1].OnHighlight();
+                            buttons[1].OnInteract();
                             break;
                         case "left":
                         case "l":
-                            buttons[2].OnHighlight();
+                            buttons[2].OnInteract();
                             break;
                         case "right":
                         case "r":
-                            buttons[3].OnHighlight();
+                            buttons[3].OnInteract();
                             break;
                         default:
-                            buttons[4].OnHighlight();
+                            buttons[4].OnInteract();
                             break;
                     }
                     yield return new WaitForSeconds(.1f);
