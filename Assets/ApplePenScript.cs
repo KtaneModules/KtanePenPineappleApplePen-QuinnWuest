@@ -268,7 +268,7 @@ public class ApplePenScript : MonoBehaviour
     }
 
 #pragma warning disable 0414
-    private readonly string TwitchHelpMessage = "!{0] move urdl [Move up, right, down, left.] | !{0} submit 2 4 [Submit 2 4.]";
+    private readonly string TwitchHelpMessage = "!{0} move urdl [Move up, right, down, left.] | !{0} submit 2 4 [Submit 2 4.]";
 #pragma warning restore 0414
 
     private IEnumerator ProcessTwitchCommand(string command)
