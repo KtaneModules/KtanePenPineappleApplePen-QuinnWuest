@@ -12,6 +12,7 @@ public class PineapplePenScript : MonoBehaviour {
     public KMBombInfo BombInfo;
     public KMBombModule Module;
     public KMSelectable[] buttons;
+    public Renderer[] arrowHighlights;
     public TextMesh pairDisp;
 
     private readonly int[][] _grid = new int[6][];
@@ -273,25 +274,35 @@ public class PineapplePenScript : MonoBehaviour {
                 yield return null;
                 for (int i = 1; i < parameters.Length; i++)
                 {
+                    int highlighted = -1;
                     switch (parameters[i].ToLowerInvariant())
                     {
                         case "up":
                         case "u":
                             buttons[0].OnHighlight();
+                            arrowHighlights[0].enabled = true;
+                            highlighted = 0;
                             break;
                         case "down":
                         case "d":
                             buttons[1].OnHighlight();
+                            arrowHighlights[1].enabled = true;
+                            highlighted = 1;
                             break;
                         case "left":
                         case "l":
                             buttons[2].OnHighlight();
+                            arrowHighlights[2].enabled = true;
+                            highlighted = 2;
                             break;
                         default:
                             buttons[3].OnHighlight();
+                            arrowHighlights[3].enabled = true;
+                            highlighted = 3;
                             break;
                     }
                     yield return new WaitForSeconds(.75f);
+                    arrowHighlights[highlighted].enabled = false;
                 }
             }
             yield break;
