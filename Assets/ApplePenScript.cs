@@ -268,7 +268,7 @@ public class ApplePenScript : MonoBehaviour
     }
 
 #pragma warning disable 0414
-    private readonly string TwitchHelpMessage = "!{0} move urdl [Move up, right, down, left.] | !{0} submit 2 4 [Submit 2 4.]";
+    private readonly string TwitchHelpMessage = "!{0} move urdl [Move up, right, down, left.] | !{0} set 2 4 [set displays to 2 4.] | !{0} submit [Press the solve button.]";
 #pragma warning restore 0414
 
     private IEnumerator ProcessTwitchCommand(string command)
@@ -294,20 +294,28 @@ public class ApplePenScript : MonoBehaviour
             yield return list;
             yield break;
         }
-        var m = Regex.Match(command, @"^\s*submit\s+(\d)\s+(\d)\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
-        if (!m.Success)
+        var m = Regex.Match(command, @"^\s*set\s+(\d)\s+(\d)\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        if (m.Success)
+        {
+            var input = new int[2];
+            if (!int.TryParse(m.Groups[1].Value, out input[0]) || !int.TryParse(m.Groups[2].Value, out input[1]) || input[0] < 1 || input[0] > 5 || input[1] < 1 || input[1] > 5)
+                yield break;
+            yield return null;
+            for (int i = 0; i < 2; i++)
+                while (_currentInput[i] != input[i])
+                {
+                    DisplaySels[i * 2].OnInteract();
+                    yield return new WaitForSeconds(0.1f);
+                }
             yield break;
-        var input = new int[2];
-        if (!int.TryParse(m.Groups[1].Value, out input[0]) || !int.TryParse(m.Groups[2].Value, out input[1]) || input[0] < 1 || input[0] > 5 || input[1] < 1 || input[1] > 5)
+        }
+        m = Regex.Match(command, @"\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        if (m.Success)
+        {
+            yield return null;
+            SubmitSel.OnInteract();
             yield break;
-        yield return null;
-        for (int i = 0; i < 2; i++)
-            while (_currentInput[i] != input[i])
-            {
-                DisplaySels[i * 2].OnInteract();
-                yield return new WaitForSeconds(0.1f);
-            }
-        SubmitSel.OnInteract();
+        }
     }
 
     private IEnumerator TwitchHandleForcedSolve()
