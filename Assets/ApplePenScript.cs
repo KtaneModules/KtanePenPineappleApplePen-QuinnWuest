@@ -274,26 +274,6 @@ public class ApplePenScript : MonoBehaviour
     private IEnumerator ProcessTwitchCommand(string command)
     {
         command = command.Trim().ToLowerInvariant();
-        if (command.StartsWith("move "))
-        {
-            var cmd = command.Substring(4);
-            var list = new List<KMSelectable>();
-            for (int i = 0; i < cmd.Length; i++)
-            {
-                var str = "urdl ";
-                int ix = str.IndexOf(cmd[i]);
-                if (ix == -1)
-                    yield break;
-                if (ix == 4)
-                    continue;
-                list.Add(ArrowSels[ix]);
-            }
-            if (list.Count == 0)
-                yield break;
-            yield return null;
-            yield return list;
-            yield break;
-        }
         var m = Regex.Match(command, @"^\s*set\s+(\d)\s+(\d)\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
         if (m.Success)
         {
@@ -316,6 +296,28 @@ public class ApplePenScript : MonoBehaviour
             SubmitSel.OnInteract();
             yield break;
         }
+        if (command.StartsWith("move "))
+            command = command.Substring(4);
+        var list = new List<KMSelectable>();
+        for (int i = 0; i < command.Length; i++)
+        {
+            var str = "urdl ";
+            int ix = str.IndexOf(command[i]);
+            if (ix == -1)
+                yield break;
+            if (ix == 4)
+                continue;
+            list.Add(ArrowSels[ix]);
+        }
+        if (list.Count == 0)
+            yield break;
+        yield return null;
+        for (int i =0; i < list.Count; i++)
+        {
+            list[i].OnInteract();
+            yield return new WaitForSeconds(0.25f);
+        }
+        yield break;
     }
 
     private IEnumerator TwitchHandleForcedSolve()
